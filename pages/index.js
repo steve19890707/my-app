@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import { useFirebase } from "../src/context/firebase.context";
+import { httpsCallable } from "firebase/functions";
 
 export default function Home() {
   const { functions } = useFirebase();
