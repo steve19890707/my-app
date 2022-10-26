@@ -6,7 +6,7 @@ const FirebaseContext = createContext();
 
 export const FirebaseProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const { app, auth } = useMemo(() => {
+  const { app, auth, functions } = useMemo(() => {
     const firebaseConfig = {
       apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
       authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -30,7 +30,8 @@ export const FirebaseProvider = ({ children }) => {
   const value = {
     app,
     auth,
-    user
+    user,
+    functions
   }
 
   return <FirebaseContext.Provider value={value}>{children}</FirebaseContext.Provider>
