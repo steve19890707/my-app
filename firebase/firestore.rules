@@ -1,9 +1,22 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if
-          request.time < timestamp.date(2022, 11, 25);
+    // match /{document=**} {
+    //  allow read, write: if
+    //      request.time < timestamp.date(2022, 11, 25);
+    // }
+    match /posts/{id} {
+      allow read;
+
+      allow create:
+        // 一定要當前用戶的uid 跟 authorId 相等才可寫入
+        if request.auth.uid == request.resource.data.authorId
+          && request.time == request.resource.data.createdAt
+          && request.time == request.resource.data.updatedAt;
+      allow update, delete:
+        // 當用戶的uid 一定要跟已存在的資料的 authorId 相等
+        // resource => 資料庫裡里已經存在的東西
+        if request.auth.uid == resource.data.authorId;
     }
   }
 }

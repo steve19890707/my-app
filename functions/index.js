@@ -10,6 +10,11 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
 
 exports.test = functions.https.onCall((data, context) => {
   console.log(data)
-  console.log(context)
-  return { a: 1 };
+  // console.log(context)
+  return { a: 2 };
+})
+
+exports.onPostCreate = functions.firestore.document(`/posts/{id}`).onUpdate((change, context) => {
+  console.log(change.before.data())
+  console.log(change.after.data())
 })
